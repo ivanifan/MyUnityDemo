@@ -28,11 +28,12 @@ public class S_EditDateBut : MonoBehaviour {
 			dateLabel.text = dateInput.GetComponent<InputField>().text;
 			yearLabel.text = yearInput.GetComponent<InputField>().text;
 
-			//save the changes to xml
+			//save changes to the database
 			SunLightWidget.Instance.InputData.updateDateMonYear(int.Parse(dateLabel.text), int.Parse(monthLabel.text), int.Parse(yearLabel.text));
+			//save changes to xml
 			SunLightWidget.Instance.saveDataToXML();
 			
-		}else{//now in editmode
+		}else{//was not in edit mode, now in editmode
 			isEditMode = true;
 			this.GetComponent<Image>().color = new Color(0.67f, 0.67f, 0.67f);
 			labelPanel.gameObject.SetActive(false);
@@ -46,7 +47,7 @@ public class S_EditDateBut : MonoBehaviour {
 		}
 	}
 
-	//find the reference to the date input fields and date labels
+	//find the reference to the date input fields and date labels, run only once in each game
 	void establishRefToDateUIs(){
 		if(monthInput == null || dateInput == null || yearInput == null){
 			monthInput = inputPanel.FindChild("MonthInput") as RectTransform;

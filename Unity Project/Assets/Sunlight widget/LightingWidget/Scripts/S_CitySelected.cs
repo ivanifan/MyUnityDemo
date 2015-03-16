@@ -8,8 +8,8 @@ public class S_CitySelected : MonoBehaviour {
 	public void clicked(){
 		cityName = this.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text;
 		SunLightWidget.Instance.InputData.setCurrentCityByName(cityName);
-		transform.parent.parent.parent.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = cityName;
-		transform.parent.parent.gameObject.SetActive(false);
+		transform.parent.parent.FindChild("CityOnDisplay").GetComponent<UnityEngine.UI.Text>().text = cityName;
+		transform.parent.gameObject.SetActive(false);
 	}
 	
 }

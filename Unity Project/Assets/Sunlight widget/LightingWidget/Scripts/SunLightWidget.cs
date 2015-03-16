@@ -26,9 +26,11 @@ public class SunLightWidget : MonoBehaviour {
 
 	public RectTransform cityButPrefab;
 	public RectTransform cityDropdown;
+
 	public Text yearLabelText;
 	public Text monthLabelText;
 	public Text dateLabelText;
+	public Text currentCityOnDisplay;
 
 	public Transform sun;
 	public static DateTime time = new DateTime(); // see the DateTime script for class definition
@@ -56,7 +58,10 @@ public class SunLightWidget : MonoBehaviour {
 	public float trueSolarTime;
 	public float hourAngle;
 	public float zenithAngle;
-	
+
+	private RectTransform hourSlider; // the hour of day is not saved into the inputData and xml. It is directly read from the slider value, range [0,1]
+
+	/*
 	public string yearString;
 	public string monthString;
 	public string dayString;
@@ -83,11 +88,13 @@ public class SunLightWidget : MonoBehaviour {
 	public GameObject panel; // the panle object. At the start of the script, we will fill the transforms of the 
 								//scripts with the children of this object
 	
-	private bool widgetStart; // default is false, turn to true when the "start widget" is clicked
-	public bool dayLightSaving; // default is false, true -> daylight saving -> deduct an hour from localtime during calculation
+
 	
 	protected UILabel yearStringUIScript;
 	protected UISprite startButtonSprite;
+*/
+	private bool widgetStart; // default is false, turn to true when the "start widget" is clicked
+	public bool dayLightSaving; // default is false, true -> daylight saving -> deduct an hour from localtime during calculation
 
 	void Awake(){
 		xmlPath = Application.dataPath + "/sunlightWidgetData.xml";
@@ -103,26 +110,32 @@ public class SunLightWidget : MonoBehaviour {
 	//PRE: Assign panel to the panel variable in inspector
 	void Start () {
 		if(true){//need to check for file path validity
-		InputData  = XmlIO.Load(xmlPath, typeof(SunlightWidgetData)) as SunlightWidgetData;
+			InputData  = XmlIO.Load(xmlPath, typeof(SunlightWidgetData)) as SunlightWidgetData;
 		}
 		Debug.Log("input loaded: " + InputData);
 
 		//this section initializes the UI with the inputData loaded from the xml
 		populateCityDropDown(InputData.ListOfCity, cityDropdown,cityButPrefab);
 		populateTimeLabels(InputData);
+		currentCityOnDisplay.text = InputData.CurrentCity.CityName;
+
+		//set up reference to hourSlider
+		hourSlider = transform.FindChild("mainPanel").FindChild("Slider") as RectTransform;
+
 //		SunlightWidgetData data = new SunlightWidgetData();
 
 //		XmlIO.Save(data ,Application.dataPath + "/sunlightWidgetData.xml");
 
-		yearString = "2013";
+/*		yearString = "2013";
 	 	monthString = "4";
 	 	dayString = "23";
 	 	minutesString = "0.004166667";
 		longitudeString = "-75";
 		latitudeString = "38.5";
 		timeZoneString = "-4";
+*/
 		widgetStart = false;
-		sun = this.transform.Find("Sun").transform;
+/*
 		panel = this.transform.parent.FindChild("Camera/Anchor/Panel").gameObject;
 		
 		yearInput = panel.transform.Find("YearInput");
@@ -140,9 +153,8 @@ public class SunLightWidget : MonoBehaviour {
 		hourNumberLabel = panel.transform.Find("HourNumber").GetComponent<UILabel>();
 		selectDateList = panel.transform.Find("SelectDateList").GetComponent<UIPopupList>();
 		checkboxScript = dayLightCheckbox.GetComponent<UICheckbox>();
-		
-		dayLightSaving = true; // It must be set to true at the beginning as at the start of the game, the daylight saving box is checked
-								// and will be unchecked automatically
+*/
+		dayLightSaving = false; 
 	}
 	
 	void populateCityDropDown(List<City> listOfCity, RectTransform dropdownPanel, RectTransform cityButPrefab){
@@ -168,31 +180,32 @@ public class SunLightWidget : MonoBehaviour {
 	public void saveDataToXML(){
 		XmlIO.Save(InputData, xmlPath);
 	}
-
+/*
 	//get called when changing hourSlider
 	public void OnDrag(){
 		if(widgetStart){
 			getInputFromUI();
 		}
 	}
-	
+
+
 	//Listen to the Daylight saving check box
 	public void OnActivate(){
 		if(!dayLightSaving){
 			dayLightSaving = true;
 			if(widgetStart){
-				getInputFromUI();
+			//	getInputFromUI();
 			}
 		}
 		else{
 			dayLightSaving = false;
 			if(widgetStart){
-				getInputFromUI();
+			//	getInputFromUI();
 			}
 		}
 	}
-	
-	
+	*/
+	/*
 	//Listen to the list and change the TimeZone, Longitude, Latitude value
 	public void OnSelectionChange(){
 		if(cityList.selection == "Philadelphia, PA"){
@@ -242,7 +255,9 @@ public class SunLightWidget : MonoBehaviour {
 		}
 		
 	}
-	
+	*/
+
+	/*
 	// !!!cam change the output of digit to Hour: Minutes
 	public void OnSliderChange(){
 		if(widgetStart){
@@ -255,7 +270,9 @@ public class SunLightWidget : MonoBehaviour {
 			hourNumberLabel.text = hourNum;
 		}
 	}
-	
+	*/
+
+/*
 	// the "start widget" button calls this function when clicked.
 	public void OnStart(){
 	//	if(){
@@ -277,8 +294,8 @@ public class SunLightWidget : MonoBehaviour {
 			}
 //		}
 	}
-	
-	
+*/
+/*	
 	 //process input from the UI
 	public void getInputFromUI(){
 			yearStringUIScript = yearInput.GetComponentInChildren<UILabel>();
@@ -302,36 +319,43 @@ public class SunLightWidget : MonoBehaviour {
 		//calcualte the input
 			calcSunCoordination();
 	}
-	
+*/	
 	
 	
 	//This method calls all the functions needed to calculate the sun position
+	//called by the hour slider
 	public void calcSunCoordination(){
-				julianDay = dateToJulian(time);
-				julianCentury = calcJulianCentury(time);
-				geomMeanAnomSun = calcGeoMeanAnomSun(time);
-				eccentEarthOrbit = calcEccentEarthOrbit(time);
-				meanObliqEcliptic = calcMeanObliqEcliptic(time);
-				ObliqCorr = calcObliqCorr(meanObliqEcliptic);
-				varY = calcVarY(ObliqCorr);
-				geomMeanLongSun = calcMeanLongSun(julianCentury);
-				eqOfTime = calcEqOfTime(geomMeanLongSun,geomMeanAnomSun,eccentEarthOrbit,varY);
-				if(!dayLightSaving){
-					trueSolarTime = calcTrueSolarTime(localTime,eqOfTime,longitude,timeZone);
-				}
-				else{
-					trueSolarTime = calcTrueSolarTime(localTime - 0.041667f,eqOfTime,longitude,timeZone);
-				}
-				hourAngle = calcHourAngle(trueSolarTime);
-				sunEqOfCtr = calcSunEqOfCtr(julianCentury,geomMeanAnomSun);
-				sunTrueLong = calcSunTrueLong(geomMeanLongSun,sunEqOfCtr);
-				sunAppLong = calcSunAppLong(sunTrueLong);
-				declinationAngle = calcDeclinationAngle(ObliqCorr,sunAppLong);
-				zenithAngle = calcZenithAngle(latitude, declinationAngle,hourAngle);
-				azimuth = calcAzimuthAngle(hourAngle,latitude,zenithAngle,declinationAngle);
-				Debug.Log("azimuth: " + azimuth);
-				altitude = calcAltitudeAngle(zenithAngle);
-				Debug.Log("altitude: " + altitude);
+		time = new DateTime(InputData.Year, InputData.Month, InputData.Date);
+		localTime = hourSlider.GetComponent<Slider>().value;
+		longitude = InputData.CurrentCity.Longitude;
+		latitude = InputData.CurrentCity.Latitude;
+		timeZone = InputData.CurrentCity.TimeZone;
+
+		julianDay = dateToJulian(time);
+		julianCentury = calcJulianCentury(time);
+		geomMeanAnomSun = calcGeoMeanAnomSun(time);
+		eccentEarthOrbit = calcEccentEarthOrbit(time);
+		meanObliqEcliptic = calcMeanObliqEcliptic(time);
+		ObliqCorr = calcObliqCorr(meanObliqEcliptic);
+		varY = calcVarY(ObliqCorr);
+		geomMeanLongSun = calcMeanLongSun(julianCentury);
+		eqOfTime = calcEqOfTime(geomMeanLongSun,geomMeanAnomSun,eccentEarthOrbit,varY);
+		if(!dayLightSaving){
+			trueSolarTime = calcTrueSolarTime(localTime,eqOfTime,longitude,timeZone);
+		}
+		else{
+			trueSolarTime = calcTrueSolarTime(localTime - 0.041667f,eqOfTime,longitude,timeZone);
+		}
+		hourAngle = calcHourAngle(trueSolarTime);
+		sunEqOfCtr = calcSunEqOfCtr(julianCentury,geomMeanAnomSun);
+		sunTrueLong = calcSunTrueLong(geomMeanLongSun,sunEqOfCtr);
+		sunAppLong = calcSunAppLong(sunTrueLong);
+		declinationAngle = calcDeclinationAngle(ObliqCorr,sunAppLong);
+		zenithAngle = calcZenithAngle(latitude, declinationAngle,hourAngle);
+		azimuth = calcAzimuthAngle(hourAngle,latitude,zenithAngle,declinationAngle);
+		Debug.Log("azimuth: " + azimuth);
+		altitude = calcAltitudeAngle(zenithAngle);
+		Debug.Log("altitude: " + altitude);
 		//rotate the sun		
 		rotateSun(azimuth, altitude);
 	}

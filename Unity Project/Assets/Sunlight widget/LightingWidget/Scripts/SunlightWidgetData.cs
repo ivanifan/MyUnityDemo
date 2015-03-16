@@ -11,10 +11,10 @@ public class City{
 	public string CityName{get;set;}
 	
 	[XmlElement("Longitude")]
-	public double Longitude{get;set;}
+	public float Longitude{get;set;}
 	
 	[XmlElement("Latitude")]
-	public double Latitude{get;set;}
+	public float Latitude{get;set;}
 	
 	[XmlElement("TimeZone")]
 	public int TimeZone{get;set;}
@@ -26,7 +26,7 @@ public class City{
 		TimeZone = 0;
 	}
 
-	public City(string name, double longitude, double latitude, int timeZone){
+	public City(string name, float longitude, float latitude, int timeZone){
 		this.CityName = name;
 		this.Longitude = longitude;
 		this.Latitude =latitude;
