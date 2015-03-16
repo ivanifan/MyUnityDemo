@@ -7,9 +7,14 @@ public class S_CitySelected : MonoBehaviour {
 	//called by the On Click() on each item of the city dropdown list
 	public void clicked(){
 		cityName = this.transform.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text;
+		//update database and save to xml
 		SunLightWidget.Instance.InputData.setCurrentCityByName(cityName);
-		transform.parent.parent.FindChild("CityOnDisplay").GetComponent<UnityEngine.UI.Text>().text = cityName;
-		transform.parent.gameObject.SetActive(false);
+		SunLightWidget.Instance.saveDataToXML();
+		//update UI
+		transform.parent.parent.parent.FindChild("CityOnDisplay").GetComponent<UnityEngine.UI.Text>().text = cityName;
+		transform.parent.parent.gameObject.SetActive(false);
+		//update sun angle
+		SunLightWidget.Instance.calcSunCoordination(); 
 	}
 	
 }

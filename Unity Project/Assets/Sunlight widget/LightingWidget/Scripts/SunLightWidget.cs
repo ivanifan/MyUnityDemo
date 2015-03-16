@@ -156,7 +156,13 @@ public class SunLightWidget : MonoBehaviour {
 */
 		dayLightSaving = false; 
 	}
-	
+
+	public void AddNewCityToDropDown(string cityName){
+		RectTransform cityItem = Instantiate(cityButPrefab) as RectTransform;
+		cityItem.parent = cityDropdown;
+		cityItem.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = cityName;
+	}
+
 	void populateCityDropDown(List<City> listOfCity, RectTransform dropdownPanel, RectTransform cityButPrefab){
 		//remove existing item in the dropdown
 		foreach(RectTransform item in dropdownPanel){
@@ -167,8 +173,31 @@ public class SunLightWidget : MonoBehaviour {
 			RectTransform cityItem = Instantiate(cityButPrefab) as RectTransform;
 			cityItem.parent = dropdownPanel;
 			cityItem.FindChild("Text").GetComponent<UnityEngine.UI.Text>().text = city.CityName;
+			if(!CityDropdownLongEnough()){
+				IncreaseCityDropdownSize();
+			}
 		}
 	}
+
+	public void IncreaseCityDropdownSize(){
+		cityDropdown.sizeDelta = new Vector2(121.3f, cityDropdown.sizeDelta.y + 18.0f);
+	}
+
+	//overload method allows specify size
+	public void IncreaseCityDropdownSize(float incrementSize){
+		cityDropdown.sizeDelta = new Vector2(121.3f, cityDropdown.sizeDelta.y + incrementSize);
+	}
+
+
+	//check if cityDropdown(contenPanel)'s height is enought to hold all the cities
+	public bool CityDropdownLongEnough(){
+		if(cityDropdown.sizeDelta.y - 16 * InputData.ListOfCity.Count <= 2){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 
 	void populateTimeLabels(SunlightWidgetData database){
 		dateLabelText.text = database.Date.ToString();
@@ -322,7 +351,7 @@ public class SunLightWidget : MonoBehaviour {
 */	
 	
 	
-	//This method calls all the functions needed to calculate the sun position
+	//This method calls all the functions needed to calculate the sun position and rotate the sun
 	//called by the hour slider
 	public void calcSunCoordination(){
 		time = new DateTime(InputData.Year, InputData.Month, InputData.Date);

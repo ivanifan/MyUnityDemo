@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class S_EditDateBut : MonoBehaviour {
 	public RectTransform labelPanel;
 	public RectTransform inputPanel;
+	public Sprite saveIcon;
+	public Sprite editIcon;
 
 	private RectTransform monthInput;
 	private RectTransform dateInput;
@@ -19,6 +21,7 @@ public class S_EditDateBut : MonoBehaviour {
 	public void editDateClicked(){
 		if(isEditMode){
 			isEditMode = false;
+			transform.FindChild("Icon").GetComponent<Image>().sprite = editIcon;
 			this.GetComponent<Image>().color = new Color(1,1,1);
 			labelPanel.gameObject.SetActive(true);
 			inputPanel.gameObject.SetActive(false);
@@ -32,9 +35,13 @@ public class S_EditDateBut : MonoBehaviour {
 			SunLightWidget.Instance.InputData.updateDateMonYear(int.Parse(dateLabel.text), int.Parse(monthLabel.text), int.Parse(yearLabel.text));
 			//save changes to xml
 			SunLightWidget.Instance.saveDataToXML();
+			//recalc sun angle
+			SunLightWidget.Instance.calcSunCoordination();
 			
 		}else{//was not in edit mode, now in editmode
 			isEditMode = true;
+
+			transform.FindChild("Icon").GetComponent<Image>().sprite = saveIcon;
 			this.GetComponent<Image>().color = new Color(0.67f, 0.67f, 0.67f);
 			labelPanel.gameObject.SetActive(false);
 			inputPanel.gameObject.SetActive(true);
@@ -45,6 +52,7 @@ public class S_EditDateBut : MonoBehaviour {
 			yearInput.GetComponent<InputField>().text = yearLabel.text;
 
 		}
+
 	}
 
 	//find the reference to the date input fields and date labels, run only once in each game

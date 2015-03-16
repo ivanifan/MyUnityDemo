@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <SunlightWidgetData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CurrentCity>
-    <CityName>Philadelphia, PA</CityName>
-    <Longitude>-75.1642</Longitude>
-    <Latitude>39.9522</Latitude>
-    <TimeZone>-5</TimeZone>
+    <CityName>ddd</CityName>
+    <Longitude>11</Longitude>
+    <Latitude>11</Latitude>
+    <TimeZone>1</TimeZone>
   </CurrentCity>
   <ListOfCity>
     <City>
@@ -24,6 +24,36 @@
       <Longitude>-122.4183</Longitude>
       <Latitude>37.775</Latitude>
       <TimeZone>-8</TimeZone>
+    </City>
+    <City>
+      <CityName>Philadelphia, PA</CityName>
+      <Longitude>-75.1642</Longitude>
+      <Latitude>39.9522</Latitude>
+      <TimeZone>-5</TimeZone>
+    </City>
+    <City>
+      <CityName>Boston, MA</CityName>
+      <Longitude>-71.0589</Longitude>
+      <Latitude>42.3601</Latitude>
+      <TimeZone>-5</TimeZone>
+    </City>
+    <City>
+      <CityName>asdf</CityName>
+      <Longitude>11</Longitude>
+      <Latitude>11</Latitude>
+      <TimeZone>1</TimeZone>
+    </City>
+    <City>
+      <CityName>d</CityName>
+      <Longitude>11</Longitude>
+      <Latitude>11</Latitude>
+      <TimeZone>1</TimeZone>
+    </City>
+    <City>
+      <CityName>ddd</CityName>
+      <Longitude>11</Longitude>
+      <Latitude>11</Latitude>
+      <TimeZone>1</TimeZone>
     </City>
   </ListOfCity>
   <Year>2014</Year>
