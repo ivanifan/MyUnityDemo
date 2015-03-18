@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <SunlightWidgetData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CurrentCity>
-    <CityName>ddd</CityName>
-    <Longitude>11</Longitude>
-    <Latitude>11</Latitude>
+    <CityName>d</CityName>
+    <Longitude>1121</Longitude>
+    <Latitude>111</Latitude>
     <TimeZone>1</TimeZone>
   </CurrentCity>
   <ListOfCity>
@@ -37,27 +37,9 @@
       <Latitude>42.3601</Latitude>
       <TimeZone>-5</TimeZone>
     </City>
-    <City>
-      <CityName>asdf</CityName>
-      <Longitude>11</Longitude>
-      <Latitude>11</Latitude>
-      <TimeZone>1</TimeZone>
-    </City>
-    <City>
-      <CityName>d</CityName>
-      <Longitude>11</Longitude>
-      <Latitude>11</Latitude>
-      <TimeZone>1</TimeZone>
-    </City>
-    <City>
-      <CityName>ddd</CityName>
-      <Longitude>11</Longitude>
-      <Latitude>11</Latitude>
-      <TimeZone>1</TimeZone>
-    </City>
   </ListOfCity>
   <Year>2014</Year>
   <Month>4</Month>
   <Date>20</Date>
-  <CurrentTime>0.44989120960235596</CurrentTime>
+  <CurrentTime>0.17272068560123444</CurrentTime>
 </SunlightWidgetData>
